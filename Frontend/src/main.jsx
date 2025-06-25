@@ -6,6 +6,7 @@ import '@fontsource/inter';
 import "./index.css"
 import Signup from './Auth/Signup.jsx';
 import Signin from './Auth/Signin.jsx';
+import ResetPassword from './Auth/ResetPassword.jsx';
 
 const LazyComponent = (Component) => (
   <Component />
@@ -21,8 +22,16 @@ const router = createBrowserRouter([
         element: <Signin />
       },
       {
-        path: "/register",
+        path: "/signin",
+        element: <Signin />
+      },
+      {
+        path: "/signup",
         element: <Signup />
+      },
+      {
+        path: "/reset-password",
+        element: <ResetPassword />
       }
     ]
   },

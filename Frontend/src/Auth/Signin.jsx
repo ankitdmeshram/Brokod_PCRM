@@ -10,10 +10,12 @@ import {
     Stack,
     CssVarsProvider,
     Checkbox,
-    Link
+    // Link
 } from '@mui/joy';
+// Link
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { Link } from 'react-router-dom';
 
 const Signin = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -104,7 +106,7 @@ const Signin = () => {
                                 size="sm"
                                 value={form.remember}
                             />
-                            <Link href="#" level="body-sm" underline="hover">
+                            <Link to={"/reset-password"} level="body-sm" underline="hover">
                                 Forgot password?
                             </Link>
                         </Box>
@@ -115,7 +117,7 @@ const Signin = () => {
                     </Stack>
                     <Typography level="body-sm" textAlign="center" mt={2}>
                         Don't have an account?{' '}
-                        <Link href="#" level="body-sm" underline="hover">
+                        <Link to={"/signup"} level="body-sm" underline="hover">
                             Register
                         </Link>
                     </Typography>

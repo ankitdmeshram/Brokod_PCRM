@@ -9,11 +9,12 @@ import {
     IconButton,
     Stack,
     Checkbox,
-    Link,
+    // Link,
     CssVarsProvider
 } from '@mui/joy';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { Link } from 'react-router-dom';
 
 const Signup = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -205,7 +206,7 @@ const Signup = () => {
 
                     <Typography level="body-sm" textAlign="center" mt={2}>
                         Already have an account?{' '}
-                        <Link href="#" level="body-sm" underline="hover">
+                        <Link to={"/signin"} level="body-sm" underline="hover">
                             Login
                         </Link>
                     </Typography>
