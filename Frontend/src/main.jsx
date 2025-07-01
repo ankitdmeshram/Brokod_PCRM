@@ -7,6 +7,7 @@ import "./index.css"
 import Signup from './Auth/Signup.jsx';
 import Signin from './Auth/Signin.jsx';
 import ResetPassword from './Auth/ResetPassword.jsx';
+import AppContext from './Context/AuthContext.jsx';
 
 const LazyComponent = (Component) => (
   <Component />
@@ -40,6 +41,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AppContext>
+      <RouterProvider router={router} />
+    </AppContext>
   </StrictMode>
 )
