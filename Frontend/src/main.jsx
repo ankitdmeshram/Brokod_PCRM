@@ -35,6 +35,20 @@ const router = createBrowserRouter([
       {
         path: "/reset-password",
         element: <ResetPassword />
+      },
+      {
+        path: "/dashboard",
+        element: LazyComponent(lazy(() => import('./Projects/Dashboard.jsx'))),
+        children: [
+          // {
+          //   path: "/dashboard/test1",
+          //   element: LazyComponent(lazy(() => import('./Projects/Test1.jsx'))),
+          // },
+          // {
+          //   path: "/dashboard/test2",
+          //   element: LazyComponent(lazy(() => import('./Projects/Test2.jsx'))),
+          // },
+        ]
       }
     ]
   },

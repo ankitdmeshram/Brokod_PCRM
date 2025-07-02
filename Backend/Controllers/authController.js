@@ -21,7 +21,7 @@ exports.signup = async (req, res) => {
         }
 
         if (password !== confirmPassword) {
-            return res.status(400).json({ message: 'Passwords do not match' });
+            return res.status(400).json({ success: false, message: 'Passwords do not match' });
         }
 
         // Check if user already exists
@@ -31,7 +31,7 @@ exports.signup = async (req, res) => {
             }
 
             if (results.length > 0) {
-                return res.status(400).json({ message: 'User already exists' });
+                return res.status(400).json({ success: false, message: 'User already exists' });
             }
 
             // Encrypt the password using cryptr
@@ -48,7 +48,7 @@ exports.signup = async (req, res) => {
 
                 // Generate JWT token
                 const token = jwt.sign(
-                    { userId: results.insertId, roles: 'user' },  // Assuming roles are stored as 'user' by default
+                    { userId: results.insertId, role: 'user' },  // Assuming roles are stored as 'user' by default
                     process.env.JWT_SECRET,
                     { expiresIn: '30d' }
                 );
@@ -102,7 +102,7 @@ exports.signin = async (req, res) => {
         const { email, password } = req.body;
 
         if (!email || !password) {
-            return res.status(400).json({ message: 'Please enter all fields' });
+            return res.status(400).json({ success: false, message: 'Please enter all fields' });
         }
 
         if (validateEmail(email) === false) {
@@ -116,7 +116,7 @@ exports.signin = async (req, res) => {
             }
 
             if (results.length === 0) {
-                return res.status(400).json({ message: 'Invalid credentials' });
+                return res.status(400).json({ success: false, message: 'Invalid credentials' });
             }
 
             // Decrypt the password using cryptr
@@ -125,7 +125,7 @@ exports.signin = async (req, res) => {
             console.log(decryptedString)
             // Compare passwords
             if (decryptedString !== password) {
-                return res.status(400).json({ message: 'Password Wrong' });
+                return res.status(400).json({ success: false, message: 'Password Wrong' });
             }
 
             // Generate JWT token

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
     Box,
     Button,
@@ -13,11 +13,15 @@ import {
 } from '@mui/joy';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { SIGNIN } from '../Services/api_services';
+import { AppContext } from '../Context/AuthContext';
 
 const Signin = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [form, setForm] = useState({ email: '', password: '', remember: false });
+    const { setUserData } = useContext(AppContext);
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         setForm({
@@ -26,9 +30,12 @@ const Signin = () => {
         });
     };
 
-    const handleSignin = () => {
-        console.log('Signin form submitted:', form);
-        // Handle login logic here
+    const handleSignin = async () => {
+        const response = await SIGNIN(form)
+        if (response && response.success) {
+            setUserData(response.user);
+            navigate('/dashboard');
+        }
     };
 
     return (

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
     Box,
     Button,
@@ -9,19 +9,22 @@ import {
     IconButton,
     Stack,
     Checkbox,
-    // Link,
     CssVarsProvider
 } from '@mui/joy';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { SIGNUP } from '../Services/api_services';
+import { AppContext } from '../Context/AuthContext';
 
 const Signup = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const { setUserData } = useContext(AppContext);
+    const navigate = useNavigate();
 
     const [form, setForm] = useState({
-        firstName: '',
-        lastName: '',
+        fname: '',
+        lname: '',
         phone: '',
         email: '',
         password: '',
@@ -37,25 +40,12 @@ const Signup = () => {
         }));
     };
 
-    const handleRegister = () => {
-
-        if (!form.firstName || !form.lastName || !form.email || !form.phone || !form.password || !form.confirmPassword) {
-            alert('Please fill in all fields');
-            return;
+    const handleSignup = async () => {
+        const response = await SIGNUP(form)
+        if (response && response.success) {
+            setUserData(response.user);
+            navigate('/dashboard');
         }
-
-        if (form.password !== form.confirmPassword) {
-            alert('Passwords do not match');
-            return;
-        }
-
-        if (!form.agree) {
-            alert('Please accept terms and conditions');
-            return;
-        }
-
-        console.log('Register form submitted:', form);
-        // Add registration logic here
     };
 
     console.log('Form state:', form);
@@ -93,9 +83,9 @@ const Signup = () => {
                             <FormLabel>First Name</FormLabel>
                             <Input
                                 type="text"
-                                name="firstName"
+                                name="fname"
                                 placeholder="John"
-                                value={form.firstName}
+                                value={form.fname}
                                 onChange={handleChange}
                                 required
                             />
@@ -105,9 +95,9 @@ const Signup = () => {
                             <FormLabel>Last Name</FormLabel>
                             <Input
                                 type="text"
-                                name="lastName"
+                                name="lname"
                                 placeholder="Doe"
-                                value={form.lastName}
+                                value={form.lname}
                                 onChange={handleChange}
                                 required
                             />
@@ -199,7 +189,7 @@ const Signup = () => {
                             size="sm"
                         />
 
-                        <Button fullWidth color="primary" onClick={handleRegister}>
+                        <Button fullWidth color="primary" onClick={handleSignup}>
                             Sign Up
                         </Button>
                     </Stack>
