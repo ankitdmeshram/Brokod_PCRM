@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const Cryptr = require("cryptr");
-console.log("yey", process.env.JWT_SECRET)
 const cryptr = new Cryptr(process.env.JWT_SECRET); // Use the same secret for encryption");
 const { validateEmail, domain } = require('../Utils/common.js');
 const { sendEmail, mailContent } = require('./mailController');

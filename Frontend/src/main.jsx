@@ -8,6 +8,7 @@ import Signup from './Auth/Signup.jsx';
 import Signin from './Auth/Signin.jsx';
 import ResetPassword from './Auth/ResetPassword.jsx';
 import AppContext from './Context/AuthContext.jsx';
+import ErrorPage from './ErrorPage.jsx';
 
 const LazyComponent = (Component) => (
   <Component />
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",
