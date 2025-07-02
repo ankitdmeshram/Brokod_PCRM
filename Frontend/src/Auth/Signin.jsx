@@ -16,6 +16,9 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Link, useNavigate } from 'react-router-dom';
 import { SIGNIN } from '../Services/api_services';
 import { AppContext } from '../Context/AuthContext';
+// import SuccessModal from '../Modals/SuccessModal';
+// import AlertModal from '../Modals/AlertModal';
+// import ConfirmationModal from '../Modals/ConfirmationModal';
 
 const Signin = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -40,6 +43,9 @@ const Signin = () => {
 
     return (
         <CssVarsProvider>
+            {/* <SuccessModal open={true} /> */}
+            {/* <AlertModal open={true} /> */}
+            {/* <ConfirmationModal open={true} /> */}
             <Box
                 sx={{
                     height: '100vh',
