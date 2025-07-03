@@ -1,8 +1,12 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
+import Header from './Projects/Components/Header'
 const App = () => {
   return (
-    <Outlet />
+    <>
+      <Header />
+      <Outlet />
+    </>
   )
 }
 

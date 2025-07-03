@@ -12,12 +12,10 @@ const Dashboard = () => {
     }, []);
 
     return (
-        <div>
+        <>
             <h1> Dashboard</h1>
-            {/* <Link to="/dashboard/test1">Test1</Link>
-            <Link to="/dashboard/test2">Test2</Link> */}
             <Outlet />
-        </div>
+        </>
     )
 }
 

@@ -73,3 +73,27 @@ export const SIGNIN = async (body) => {
         throw error; // Re-throw the error for further handling
     }
 }
+
+export const LOGOUT = async () => {
+    try {
+        // const response = await postAPI(`${domainName()}/api/auth/logout`, {})
+
+        // if (!response || !response.success) {
+        //     alert(response?.message || 'Logout failed. Please try again.');
+        //     return;
+        // }
+
+        // if (response.success) {
+        alert('Logout successful!');
+        setCookie('ud', '', -1); // Delete cookie
+        setCookie('udd', '', -1); // Delete cookie
+        // }
+
+        window.location.href = '/signin'; // Redirect to signin page
+
+        // return response
+    } catch (error) {
+        console.error("Error during logout:", error);
+        throw error; // Re-throw the error for further handling
+    }
+}

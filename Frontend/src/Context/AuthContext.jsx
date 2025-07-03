@@ -22,7 +22,7 @@ const AppProvider = ({ children }) => {
         if (userDataCookie) {
             try {
                 setUserData(JSON.parse(userDataCookie));
-                if (window.location.pathname === '/' || window.location.pathname === '/login' || window.location.pathname === '/signup') {
+                if (window.location.pathname === '/' || window.location.pathname === '/signin' || window.location.pathname === '/signup') {
                     window.location.href = '/dashboard';
                 }
             } catch (error) {
@@ -31,7 +31,7 @@ const AppProvider = ({ children }) => {
         } else {
             console.log("No user data found in cookies");
             setUserData(null);
-            if (window.location.pathname === '/' || window.location.pathname === '/login' || window.location.pathname === '/signup') {
+            if (window.location.pathname === '/' || window.location.pathname === '/signin' || window.location.pathname === '/signup') {
                 return;
             }
             window.location.href = '/';
