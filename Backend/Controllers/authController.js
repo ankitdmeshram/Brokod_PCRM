@@ -231,3 +231,22 @@ exports.resetPassword = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 }
+
+exports.logout = async (req, res) => {
+    try {
+        const token = req.header('x-auth-token');
+        console.log("token", token);
+        if (!token) {
+            return res.status(401).json({ message: 'No token provided' });
+        }
+        sqlDB.query('INSERT INTO Tokens (token) VALUES (?)', [token], (err, results) => {
+            if (err) {
+                return res.status(500).json({ message: 'Database error' });
+            }
+            res.status(200).json({ message: 'Logout successful' });
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+}

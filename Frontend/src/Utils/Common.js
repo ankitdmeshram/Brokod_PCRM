@@ -36,11 +36,12 @@ export const deleteCookie = (name) => {
 
 export const postAPI = async (url, data) => {
     try {
+        const userDataCookie = await getCookie('udd');
         const response = await fetch(`${url}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'x-auth-token': await getCookie('ud'),
+                'x-auth-token': userDataCookie,
             },
             body: JSON.stringify(data),
         });

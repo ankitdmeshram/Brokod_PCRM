@@ -88,6 +88,8 @@ export const LOGOUT = async () => {
         setCookie('ud', '', -1); // Delete cookie
         setCookie('udd', '', -1); // Delete cookie
         // }
+        
+        const response = await postAPI(`${domainName()}/api/auth/logout`, {})
 
         window.location.href = '/signin'; // Redirect to signin page
 
