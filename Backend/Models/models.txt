@@ -16,3 +16,17 @@ Tables -
     - created_by
     - created_at
     - updated_at
+
+    Workspace Customers/clients
+
+    Projects
+    - id
+    - workspace_id
+    - project_name
+    - project_description
+    - project_slug
+    - project_privacy
+    - project_status
+    - owner
+    - created_at
+    - updated_at

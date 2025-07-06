@@ -41,22 +41,36 @@ const router = createBrowserRouter([
       {
         path: "/workspaces",
         element: LazyComponent(lazy(() => import('./Workspaces/WP_Dashboard.jsx'))),
-      },
 
-      {
-        path: "/dashboard",
-        element: LazyComponent(lazy(() => import('./Projects/Dashboard.jsx'))),
         children: [
-          // {
-          //   path: "/dashboard/test1",
-          //   element: LazyComponent(lazy(() => import('./Projects/Test1.jsx'))),
-          // },
-          // {
-          //   path: "/dashboard/test2",
-          //   element: LazyComponent(lazy(() => import('./Projects/Test2.jsx'))),
-          // },
+          {
+            path: "/workspaces",
+            element: LazyComponent(lazy(() => import("./Workspaces/WP_Workspaces.jsx")))
+          },
+          {
+            path: "/workspaces/:ws_code",
+            element: LazyComponent(lazy(() => import("./Workspaces/Projects/Pro_Dashboard.jsx"))),
+            children: [
+              {
+                path: "/workspaces/:ws_code",
+                element: LazyComponent(lazy(() => import("./Workspaces/Projects/Pro_Analytics.jsx")))
+              },
+              {
+                path: "/workspaces/:ws_code/projects",
+                element: LazyComponent(lazy(() => import("./Workspaces/Projects/Pro_Projects.jsx")))
+              },
+              {
+                path: "/workspaces/:ws_code/users",
+                element: LazyComponent(lazy(() => import("./Workspaces/Projects/Pro_Users.jsx")))
+              },
+              {
+                path: "/workspaces/:ws_code/settings",
+                element: LazyComponent(lazy(() => import("./Workspaces/Projects/Pro_Settings.jsx")))
+              }
+            ]
+          }
         ]
-      }
+      },
     ]
   },
 ]

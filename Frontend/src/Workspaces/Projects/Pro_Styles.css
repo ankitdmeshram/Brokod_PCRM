@@ -1,0 +1,9 @@
+.pro-navs {
+    display: flex;
+    gap: 1rem
+}
+
+.pro-navs a {
+    text-decoration: none;
+    color: #000000;
+}

@@ -1,6 +1,4 @@
-import React, { useContext, useEffect } from 'react'
-import { Link, Outlet } from 'react-router-dom';
-import WP_Workspaces from './WP_Workspaces.jsx';
+import { Outlet } from 'react-router-dom';
 import { Box } from '@mui/joy';
 
 import "./WP_Styles.css";
@@ -11,10 +9,8 @@ const WP_Dashboard = () => {
         <>
             <WorkSpaceContext>
                 <Box className="workspaces-container">
-                    <h1> Workspaces</h1>
-                    <WP_Workspaces />
+                    <Outlet />
                 </Box>
-                <Outlet />
             </WorkSpaceContext>
         </>
     )

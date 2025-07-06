@@ -11,7 +11,6 @@ const Header = () => {
     const isLoggedIn = userData && Object.keys(userData).length > 0 ? "protected" : "public"
 
     const URLS = [
-        { name: 'Dashboard', path: '/dashboard', type: 'protected' },
         { name: 'Workspaces', path: '/workspaces', type: 'protected' },
         { name: 'Sign In', path: '/signin', type: 'public' },
         { name: 'Sign Up', path: '/signup', type: 'public' },

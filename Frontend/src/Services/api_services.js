@@ -176,3 +176,24 @@ export const DELETE_WORKSPACES = async (id) => {
         throw error; // Re-throw the error for further handling
     }
 }
+
+export const CREATE_PROJECT = async (project) => {
+    try {
+        if (!project.project_name || !project.owner) {
+            alert("Project name and owner are required.");
+            return;
+        }
+
+        const response = await postAPI(`${domainName()}/api/project/create`, project)
+
+        if (!response || !response.success) {
+            alert(response?.message);
+            return;
+        }
+
+        return response
+    } catch (error) {
+        console.error("Error during project creation:", error);
+        throw error; // Re-throw the error for further handling
+    }
+}

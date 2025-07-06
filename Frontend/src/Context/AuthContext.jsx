@@ -23,7 +23,7 @@ const AppProvider = ({ children }) => {
             try {
                 setUserData(JSON.parse(userDataCookie));
                 if (window.location.pathname === '/' || window.location.pathname === '/signin' || window.location.pathname === '/signup') {
-                    window.location.href = '/dashboard';
+                    window.location.href = '/workspaces';
                 }
             } catch (error) {
                 console.error("Error parsing user data from cookie:", error);

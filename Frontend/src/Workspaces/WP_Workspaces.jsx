@@ -7,10 +7,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import ForwardIcon from '@mui/icons-material/Forward';
 import moment from "moment";
+import { useNavigate } from 'react-router-dom';
 
 const WP_Workspaces = () => {
 
     const [openWorkSpaceModal, setOpenWorkspaceModal] = useState({ open: false });
+
+    const navigate = useNavigate()
 
     const { createWorkSpace, workspaces, fetchWorkSpaces, updateWorkSpace, deleteWorkspace } = useContext(WorkSpaceContext);
 
@@ -30,6 +33,7 @@ const WP_Workspaces = () => {
 
     return (
         <>
+            <h2>Workspaces</h2>
             <Box className="workspaces-list">
                 <Box className="workspace-item" onClick={() => openAddWorkspaceModal()}
                     sx={{ textAlign: 'center', alignItems: 'center', justifyContent: "center", height: "100%", fontSize: "7rem" }}
@@ -55,7 +59,9 @@ const WP_Workspaces = () => {
                                         />
                                     </>
                                 }
-                                <ForwardIcon />
+                                <ForwardIcon
+                                    onClick={() => navigate(workspace?.workspace_slug)}
+                                />
                             </Box>
                         </Box>
                     ))
