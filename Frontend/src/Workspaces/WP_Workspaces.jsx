@@ -6,6 +6,8 @@ import { useEffect } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import ForwardIcon from '@mui/icons-material/Forward';
+import moment from "moment";
+
 const WP_Workspaces = () => {
 
     const [openWorkSpaceModal, setOpenWorkspaceModal] = useState({ open: false });
@@ -41,7 +43,7 @@ const WP_Workspaces = () => {
                         <Box key={index} className="workspace-item">
                             <Typography level='h4' >{workspace.workspace_name}</Typography>
                             <Typography>{workspace.workspace_description || 'No description available.'}</Typography>
-                            <Typography textAlign={'right'} marginTop={'auto'} >Last updated: {workspace.updated_at && new Date(workspace.updated_at).toLocaleDateString()}</Typography>
+                            <Typography textAlign={'right'} marginTop={'auto'} >Last updated: {workspace.updated_at && moment(workspace.updated_at).format("DD-MM-YYYY")}</Typography>
                             <Box className="workspace-dev-options">
                                 {
                                     workspace?.role == "admin" &&
