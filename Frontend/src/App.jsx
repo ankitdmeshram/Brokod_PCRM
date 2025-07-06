@@ -1,6 +1,6 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-import Header from './Projects/Components/Header'
+import Header from './components/Header'
 const App = () => {
   return (
     <>

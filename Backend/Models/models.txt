@@ -1,0 +1,18 @@
+Tables - 
+   
+    Workspace
+    - id
+    - workspace_name
+    - workspace_slug
+    - workspace_description
+    - created_at
+    - updated_at
+
+    Workspace Users
+    - id
+    - user_id
+    - workspace_id
+    - role
+    - created_by
+    - created_at
+    - updated_at

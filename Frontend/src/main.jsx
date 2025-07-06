@@ -9,6 +9,8 @@ import Signin from './Auth/Signin.jsx';
 import ResetPassword from './Auth/ResetPassword.jsx';
 import AppContext from './Context/AuthContext.jsx';
 import ErrorPage from './ErrorPage.jsx';
+import { WorkSpaceContext } from './Context/WorkspaceContext.jsx';
+import WP_Dashboard from './Workspaces/WP_Dashboard.jsx';
 
 const LazyComponent = (Component) => (
   <Component />
@@ -37,6 +39,11 @@ const router = createBrowserRouter([
         element: <ResetPassword />
       },
       {
+        path: "/workspaces",
+        element: LazyComponent(lazy(() => import('./Workspaces/WP_Dashboard.jsx'))),
+      },
+
+      {
         path: "/dashboard",
         element: LazyComponent(lazy(() => import('./Projects/Dashboard.jsx'))),
         children: [
@@ -56,9 +63,7 @@ const router = createBrowserRouter([
 );
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <AppContext>
-      <RouterProvider router={router} />
-    </AppContext>
-  </StrictMode>
+  <AppContext>
+    <RouterProvider router={router} />
+  </AppContext>
 )

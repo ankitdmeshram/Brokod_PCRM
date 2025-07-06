@@ -44,7 +44,7 @@ const Signup = () => {
         const response = await SIGNUP(form)
         if (response && response.success) {
             setUserData(response.user);
-            navigate('/dashboard');
+            navigate('/workspaces');
         }
     };
 

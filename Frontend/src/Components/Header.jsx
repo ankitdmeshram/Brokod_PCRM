@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
 import { Box } from "@mui/joy"
 import { Link } from 'react-router-dom'
-import { AppContext } from '../../Context/AuthContext'
-import { LOGOUT } from '../../Services/api_services'
+import { AppContext } from '../Context/AuthContext'
+import { LOGOUT } from '../Services/api_services'
 
 const Header = () => {
 
@@ -12,6 +12,7 @@ const Header = () => {
 
     const URLS = [
         { name: 'Dashboard', path: '/dashboard', type: 'protected' },
+        { name: 'Workspaces', path: '/workspaces', type: 'protected' },
         { name: 'Sign In', path: '/signin', type: 'public' },
         { name: 'Sign Up', path: '/signup', type: 'public' },
         { name: 'Logout', type: 'protected', function: LOGOUT }

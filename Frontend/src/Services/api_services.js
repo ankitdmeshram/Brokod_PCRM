@@ -88,7 +88,6 @@ export const LOGOUT = async () => {
         setCookie('ud', '', -1); // Delete cookie
         setCookie('udd', '', -1); // Delete cookie
         // }
-        
         const response = await postAPI(`${domainName()}/api/auth/logout`, {})
 
         window.location.href = '/signin'; // Redirect to signin page
@@ -96,6 +95,84 @@ export const LOGOUT = async () => {
         // return response
     } catch (error) {
         console.error("Error during logout:", error);
+        throw error; // Re-throw the error for further handling
+    }
+}
+
+export const CREATE_WORKSPACE = async (workspaceData) => {
+    try {
+        if (!workspaceData.name) {
+            alert('Please enter a workspace name');
+            return;
+        }
+
+        const response = await postAPI(`${domainName()}/api/workspace/create`, workspaceData)
+
+        if (!response || !response.success) {
+            alert(response?.message);
+            return;
+        }
+
+        return response
+    } catch (error) {
+        console.error("Error during workspace creation:", error);
+        throw error; // Re-throw the error for further handling
+    }
+}
+
+export const UPDATE_WORKSPACE = async (workspaceData) => {
+    try {
+
+        if (!workspaceData?.id) {
+            alert("Refresh page and please try again!")
+        }
+
+        if (!workspaceData.name) {
+            alert('Please enter a workspace name');
+            return;
+        }
+
+        const response = await postAPI(`${domainName()}/api/workspace/update`, workspaceData)
+
+        if (!response || !response.success) {
+            alert(response?.message);
+            return;
+        }
+
+        return response
+    } catch (error) {
+        console.error("Error during workspace updation:", error);
+        throw error; // Re-throw the error for further handling
+    }
+}
+
+export const GET_WORKSPACES = async () => {
+    try {
+        const response = await postAPI(`${domainName()}/api/workspace/all`, {})
+
+        if (!response || !response.success) {
+            alert(response?.message);
+            return;
+        }
+
+        return response || [];
+    } catch (error) {
+        console.error("Error fetching workspaces:", error);
+        throw error; // Re-throw the error for further handling
+    }
+}
+export const DELETE_WORKSPACES = async (id) => {
+    try {
+        const response = await postAPI(`${domainName()}/api/workspace/delete`, { id })
+
+        if (!response || !response.success) {
+            alert(response?.message);
+            return;
+        }
+
+        return response || [];
+    } catch (error) {
+        console.error("Error fetching workspaces:", error);
         throw error; // Re-throw the error for further handling
     }
 }
