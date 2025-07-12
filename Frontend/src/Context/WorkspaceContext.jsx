@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react'
-import { CREATE_WORKSPACE, DELETE_WORKSPACES, GET_WORKSPACE_USERS, GET_WORKSPACES, UPDATE_WORKSPACE } from '../Services/api_services';
+import { ADD_WORKSPACE_USER, CREATE_WORKSPACE, DELETE_WORKSPACES, GET_WORKSPACE_USERS, GET_WORKSPACES, UPDATE_WORKSPACE } from '../Services/api_services';
 
 export const WorkSpaceContext = createContext()
 
@@ -73,6 +73,18 @@ const WorkSpaceProvider = ({ children }) => {
         }
     }
 
+    const addWorkSpaceUser = async (user) => {
+        const response = await ADD_WORKSPACE_USER(user)
+        if (response && response.success) {
+            setWorkSpaceUsers(prev => [...prev, {
+                user_id: response?.userId,
+                ...user
+            }])
+            alert('User added successfully!');
+            return response;
+        }
+    }
+
     const contextValue = {
         workspaces, setWorkspaces,
         createWorkSpace,
@@ -81,7 +93,8 @@ const WorkSpaceProvider = ({ children }) => {
         deleteWorkspace,
 
         workSpaceUsers, setWorkSpaceUsers,
-        fetchWorkSpaceUsers
+        fetchWorkSpaceUsers,
+        addWorkSpaceUser
     }
 
     return (

@@ -286,3 +286,35 @@ export const GET_WORKSPACE_USERS = async (workspace) => {
         throw error; // Re-throw the error for further handling
     }
 }
+
+export const ADD_WORKSPACE_USER = async (user) => {
+    try {
+        console.log("user", user)
+        if (!user.fname || !user.lname || !user.email || !user.role) {
+            alert('Please fill in all fields');
+            return;
+        }
+
+        if (!validateEmail(user.email)) {
+            alert('Please enter a valid email address');
+            return;
+        }
+
+        const body = {
+            ...user,
+            workspace: window.location.pathname.split('/')[2] // Assuming the workspace ID is in the URL
+        }
+
+        const response = await postAPI(`${domainName()}/api/workspace/user/add`, body)
+
+        if (!response || !response.success) {
+            alert(response?.message);
+            return;
+        }
+
+        return response
+    } catch (error) {
+        console.error("Error adding workspace user:", error);
+        throw error; // Re-throw the error for further handling
+    }
+}

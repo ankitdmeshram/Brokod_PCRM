@@ -306,3 +306,81 @@ exports.getWorkspaceUsers = async (req, res) => {
         return res.status(500).json({ success: false, message: "Internal server error." });
     }
 }
+
+exports.addWorkspaceUser = async (req, res) => {
+    try {
+        const { workspace, fname, lname, email, role } = req.body;
+
+        // Validate input
+        if (!workspace || !fname || !lname || !email || !role) {
+            return res.status(400).json({ success: false, message: "All fields are required." });
+        }
+
+        // workspace id fetch from workspace slug
+        sqlDB.query("SELECT id FROM workspaces WHERE workspace_slug = ?", [workspace], (error, results) => {
+            if (error) {
+                console.error("Error fetching workspace ID:", error);
+                return res.status(500).json({ success: false, message: "Database error." });
+            }
+
+            if (results.length === 0) {
+                return res.status(404).json({ success: false, message: "Workspace not found." });
+            }
+
+            const workspaceId = results[0].id;
+
+            // Check if user already exists 
+            sqlDB.query("SELECT * FROM users WHERE email = ?", [email], (error, userResults) => {
+                if (error) {
+                    console.error("Error checking user existence:", error);
+                    return res.status(500).json({ success: false, message: "Database error." });
+                }
+
+                let userId;
+                if (userResults.length > 0) {
+                    userId = userResults[0].id;
+                    // Add user to workspace_users table
+                    sqlDB.query("SELECT * FROM workspace_users WHERE workspace_id = ? AND user_id = ?", [workspaceId, userId], (error, workspaceUserResults) => {
+                        if (error) {
+                            console.error("Error checking workspace user existence:", error);
+                            return res.status(500).json({ success: false, message: "Database error." });
+                        }
+                        if (workspaceUserResults.length > 0) {
+                            return res.status(400).json({ success: false, message: "User is already part of this workspace." });
+                        }
+
+                        sqlDB.query("INSERT INTO workspace_users (workspace_id, user_id, role, created_by) VALUES (?, ?, ?, ?)", [workspaceId, userId, role, req.user.userId], (error) => {
+                            if (error) {
+                                console.error("Error adding user to workspace:", error);
+                                return res.status(500).json({ success: false, message: "Database error." });
+                            }
+                            return res.status(201).json({ success: true, message: "User added to workspace successfully." });
+                        });
+                    });
+                } else {
+                    // Insert new user
+                    sqlDB.query("INSERT INTO users (fname, lname, email) VALUES (?, ?, ?)", [fname, lname, email], (error, insertResult) => {
+                        if (error) {
+                            console.error("Error inserting new user:", error);
+                            return res.status(500).json({ success: false, message: "Database error." });
+                        }
+                        userId = insertResult.insertId;
+
+                        // Add user to workspace_users table
+                        sqlDB.query("INSERT INTO workspace_users (workspace_id, user_id, role, created_by) VALUES (?, ?, ?, ?)", [workspaceId, userId, role, req.user.userId], (error) => {
+                            if (error) {
+                                console.error("Error adding user to workspace:", error);
+                                return res.status(500).json({ success: false, message: "Database error." });
+                            }
+                            return res.status(201).json({ success: true, message: "User added to workspace successfully." });
+                        });
+                    });
+                }
+            });
+        });
+
+    } catch (error) {
+        console.error("Error in addWorkspaceUser:", error);
+        return res.status(500).json({ success: false, message: "Internal server error." });
+    }
+}
