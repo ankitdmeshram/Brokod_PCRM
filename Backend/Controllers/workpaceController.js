@@ -244,3 +244,65 @@ exports.deleteWorkspace = async (req, res) => {
         });
     }
 };
+
+
+exports.getWorkspaceUsers = async (req, res) => {
+    try {
+        const { workspace } = req.body;
+
+        // Validate input
+        if (!workspace) {
+            return res.status(400).json({ success: false, message: "Workspace ID is required." });
+        }
+
+        sqlDB.query("SELECT * FROM workspaces WHERE workspace_slug = ?", [workspace], (error, results) => {
+            if (error) {
+                console.error("Error fetching workspace:", error);
+                return res.status(500).json({ success: false, message: "Database error." });
+            }
+
+            if (results.length === 0) {
+                return res.status(404).json({ success: false, message: "Workspace not found." });
+            }
+
+            // Fetch users of the workspace
+            sqlDB.query("SELECT * FROM workspace_users WHERE workspace_id = ?", [results[0]?.id], (error, results) => {
+                if (error) {
+                    console.error("Error fetching workspace users:", error);
+                    return res.status(500).json({ success: false, message: "Database error." });
+                }
+                if (results.length === 0) {
+                    return res.status(404).json({ success: false, message: "No users found for this workspace." });
+                }
+
+                // get fname and lname  from users table
+                const userIds = results.map(user => user.user_id);
+                sqlDB.query("SELECT * FROM users WHERE id IN (?)", [userIds], (error, userDetails) => {
+                    if (error) {
+                        console.error("Error fetching user details:", error);
+                        return res.status(500).json({ success: false, message: "Database error." });
+                    }
+
+                    // Combine user details with workspace users
+                    const combinedResults = results.map(user => {
+                        const userDetail = userDetails.find(detail => detail.id === user.user_id);
+                        return {
+                            ...user,
+                            fname: userDetail?.fname || '',
+                            lname: userDetail?.lname || '',
+                            email: userDetail?.email || '',
+                            phone: userDetail?.phone || '',
+                        };
+                    });
+
+                    return res.status(200).json({ success: true, users: combinedResults });
+                });
+
+            });
+        });
+
+    } catch (error) {
+        console.error("Error in getWorkspaceUsers:", error);
+        return res.status(500).json({ success: false, message: "Internal server error." });
+    }
+}

@@ -184,7 +184,12 @@ export const CREATE_PROJECT = async (project) => {
             return;
         }
 
-        const response = await postAPI(`${domainName()}/api/project/create`, project)
+        let body = {
+            ...project,
+            workspace: window.location.pathname.split('/')[2]
+        }
+
+        const response = await postAPI(`${domainName()}/api/project/create`, body)
 
         if (!response || !response.success) {
             alert(response?.message);
@@ -194,6 +199,90 @@ export const CREATE_PROJECT = async (project) => {
         return response
     } catch (error) {
         console.error("Error during project creation:", error);
+        throw error; // Re-throw the error for further handling
+    }
+}
+
+export const FETCH_PROJECTS = async (workspace) => {
+    try {
+        if (!workspace) {
+            alert("Workspace is required.");
+            return;
+        }
+
+        const response = await postAPI(`${domainName()}/api/project/all`, { workspace })
+
+        if (!response || !response.success) {
+            alert(response?.message);
+            return;
+        }
+
+        return response || [];
+    } catch (error) {
+        console.error("Error fetching projects:", error);
+        throw error; // Re-throw the error for further handling
+    }
+}
+
+export const DELETE_PROJECT = async (id) => {
+    try {
+        const response = await postAPI(`${domainName()}/api/project/delete`, { id, workspace: window.location.pathname.split('/')[2] })
+
+        if (!response || !response.success) {
+            alert(response?.message);
+            return;
+        }
+
+        return response || [];
+    } catch (error) {
+        console.error("Error deleting project:", error);
+        throw error; // Re-throw the error for further handling
+    }
+}
+
+export const UPDATE_PROJECT = async (project) => {
+    try {
+        if (!project.id) {
+            alert("Project ID is required.");
+            return;
+        }
+
+        let body = {
+            ...project,
+            workspace: window.location.pathname.split('/')[2]
+        }
+
+        const response = await postAPI(`${domainName()}/api/project/update`, body)
+
+        if (!response || !response.success) {
+            alert(response?.message);
+            return;
+        }
+
+        return response
+    } catch (error) {
+        console.error("Error during project update:", error);
+        throw error; // Re-throw the error for further handling
+    }
+}
+
+export const GET_WORKSPACE_USERS = async (workspace) => {
+    try {
+        if (!workspace) {
+            alert("Workspace is required.");
+            return;
+        }
+
+        const response = await postAPI(`${domainName()}/api/workspace/users`, { workspace })
+
+        if (!response || !response.success) {
+            alert(response?.message);
+            return;
+        }
+
+        return response || [];
+    } catch (error) {
+        console.error("Error fetching workspace users:", error);
         throw error; // Re-throw the error for further handling
     }
 }

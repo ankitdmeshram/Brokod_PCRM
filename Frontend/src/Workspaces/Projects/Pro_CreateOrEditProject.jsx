@@ -14,19 +14,25 @@ import {
     Stack,
 } from "@mui/joy";
 import { AppContext } from "../../Context/AuthContext";
+import { WorkSpaceContext } from "../../Context/WorkspaceContext";
 
-const Pro_CreateOrEditProjectModal = ({ open, onClose, onSubmit, type="new" }) => {
+const Pro_CreateOrEditProjectModal = ({ open, onClose, onSubmit, type = "new", data = null }) => {
 
     const { userData } = useContext(AppContext)
+    const { workSpaceUsers } = useContext(WorkSpaceContext)
 
-    console.log("userData", userData)
-    const [projectData, setProjectData] = useState({
-        project_name: "",
-        project_description: "",
-        project_privacy: "public",
-        project_status: "active",
-        owner: userData?.id,
-    });
+    const [projectData, setProjectData] = useState(data ?
+        {
+            ...data,
+            owner: data ? data?.owner?.id : userData?.id,
+        }
+        : {
+            project_name: "",
+            project_description: "",
+            project_privacy: "public",
+            project_status: "active",
+            owner: userData?.id,
+        });
 
     const handleChange = (field, value) => {
         setProjectData((prev) => ({ ...prev, [field]: value }));
@@ -55,7 +61,11 @@ const Pro_CreateOrEditProjectModal = ({ open, onClose, onSubmit, type="new" }) =
             <ModalDialog sx={{ width: "35rem", maxWidth: "85%" }}>
                 <ModalClose />
                 <Typography level="h4" textAlign="center" mb={2}>
-                    Create New Project
+                    {
+                        type == "new" ?
+                            "Create New Project"
+                            : "Edit Project"
+                    }
                 </Typography>
 
                 <Stack spacing={2}>
@@ -107,7 +117,13 @@ const Pro_CreateOrEditProjectModal = ({ open, onClose, onSubmit, type="new" }) =
                             value={projectData.owner}
                             onChange={(e, val) => handleChange("owner", val)}
                         >
-                            <Option value={userData?.id}>{`${userData?.fname} ${userData?.lname}`}</Option>
+                            {
+                                workSpaceUsers?.map((user) => (
+                                    <Option key={user?.user_id} value={user?.user_id}>
+                                        {`${user?.fname} ${user?.lname}`} ({user?.email})
+                                    </Option>
+                                ))
+                            }
                         </Select>
                     </FormControl>
 
@@ -115,7 +131,12 @@ const Pro_CreateOrEditProjectModal = ({ open, onClose, onSubmit, type="new" }) =
                         <Button variant="plain" onClick={onClose}>
                             Cancel
                         </Button>
-                        <Button onClick={handleSubmit}>Create</Button>
+                        {
+                            type == "new" ?
+                                <Button onClick={handleSubmit}>Create</Button>
+                                :
+                                <Button onClick={handleSubmit}>Update</Button>
+                        }
                     </Stack>
                 </Stack>
             </ModalDialog>

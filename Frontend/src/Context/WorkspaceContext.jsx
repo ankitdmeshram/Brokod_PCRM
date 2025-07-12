@@ -1,11 +1,12 @@
 import React, { createContext, useState } from 'react'
-import { CREATE_WORKSPACE, DELETE_WORKSPACES, GET_WORKSPACES, UPDATE_WORKSPACE } from '../Services/api_services';
+import { CREATE_WORKSPACE, DELETE_WORKSPACES, GET_WORKSPACE_USERS, GET_WORKSPACES, UPDATE_WORKSPACE } from '../Services/api_services';
 
 export const WorkSpaceContext = createContext()
 
 const WorkSpaceProvider = ({ children }) => {
 
     const [workspaces, setWorkspaces] = useState([])
+    const [workSpaceUsers, setWorkSpaceUsers] = useState([])
 
     const fetchWorkSpaces = async () => {
         const response = await GET_WORKSPACES()
@@ -64,12 +65,23 @@ const WorkSpaceProvider = ({ children }) => {
         return [];
     }
 
+    const fetchWorkSpaceUsers = async (workspace) => {
+        const response = await GET_WORKSPACE_USERS(workspace)
+        if (response && response.success) {
+            setWorkSpaceUsers(response.users || []);
+            return response.users;
+        }
+    }
+
     const contextValue = {
         workspaces, setWorkspaces,
         createWorkSpace,
         updateWorkSpace,
         fetchWorkSpaces,
-        deleteWorkspace
+        deleteWorkspace,
+
+        workSpaceUsers, setWorkSpaceUsers,
+        fetchWorkSpaceUsers
     }
 
     return (

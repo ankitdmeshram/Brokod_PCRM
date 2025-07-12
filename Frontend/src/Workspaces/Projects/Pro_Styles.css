@@ -7,3 +7,15 @@
     text-decoration: none;
     color: #000000;
 }
+
+.quick-links {
+    display: flex;
+    gap: 1.2rem;
+    margin-top: 0.25rem;
+}
+
+.quick-links a {
+    text-decoration: none;
+    font-size: 0.9rem;
+    border-bottom: 1px dashed #000000;
+}

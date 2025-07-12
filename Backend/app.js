@@ -7,6 +7,7 @@ dotenv.config();  // Load environment variables
 
 const authRouter = require('./Routes/authRouter.js');
 const workspaceRouter = require('./Routes/workspaceRouter.js');
+const projectRouter = require('./Routes/projectRouter.js');
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(express.json());
 // Use the auth routes for authentication
 app.use('/api/auth', authRouter);  // All auth routes will be prefixed with /auth
 app.use('/api/workspace', workspaceRouter);  // All auth routes will be prefixed with /auth
+app.use('/api/project', projectRouter);  // All auth routes will be prefixed with /auth
 
 
 // Example of a simple unprotected route (public)

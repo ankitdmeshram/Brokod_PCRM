@@ -60,7 +60,7 @@ const WP_Workspaces = () => {
                                     </>
                                 }
                                 <ForwardIcon
-                                    onClick={() => navigate(workspace?.workspace_slug)}
+                                    onClick={() => { navigate(workspace?.workspace_slug) }}
                                 />
                             </Box>
                         </Box>
